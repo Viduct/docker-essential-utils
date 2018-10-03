@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  reverse_proxy:
+    image: traefik
+    command: --docker # --api
+    ports:
+      - "80:80"
+      # - "8080:8080" # Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # labels:
+      # - traefik.frontend.rule=Host:monitor.dev.local
+      # - traefik.port=8080
+    container_name: reverse_proxy
+  
+  portainer:
+    image: portainer/portainer:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    labels:
+      - traefik.frontend.rule=Host:portainer.dev.local
+    container_name: portainer
+
+volumes:
+  portainer_data:
