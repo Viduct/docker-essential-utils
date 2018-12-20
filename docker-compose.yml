@@ -1,27 +1,43 @@
 version: '3'
 
 services:
-  reverse_proxy:
-    image: traefik
-    command: --docker # --api
+  traefik:
+    image: traefik:latest
+    command: --docker
     ports:
       - "80:80"
-      # - "8080:8080" # Web UI (enabled by --api)
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    # labels:
-      # - traefik.frontend.rule=Host:monitor.dev.local
-      # - traefik.port=8080
-    container_name: reverse_proxy
-  
+      - $PWD/traefik.toml:/traefik.toml
+      - $PWD/acme.json:/acme.json
+    networks:
+      - prod
+    restart_policy:
+      condition: on-failure
+      delay: 3s
+      max_attempts: 5
+      window: 10s
+    container_name: traefik
+
   portainer:
     image: portainer/portainer:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - prod
     labels:
-      - traefik.frontend.rule=Host:portainer.dev.local
+      - traefik.frontend.rule=Host:portainer.tymclyps.de
+    restart_policy:
+      condition: on-failure
+      delay: 3s
+      max_attempts: 5
+      window: 10s
     container_name: portainer
 
 volumes:
   portainer_data:
+
+networks:
+  prod:
