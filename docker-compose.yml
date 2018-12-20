@@ -13,11 +13,7 @@ services:
       - $PWD/acme.json:/acme.json
     networks:
       - prod
-    restart_policy:
-      condition: on-failure
-      delay: 3s
-      max_attempts: 5
-      window: 10s
+    restart: on-failure
     container_name: traefik
 
   portainer:
@@ -29,11 +25,7 @@ services:
       - prod
     labels:
       - traefik.frontend.rule=Host:portainer.tymclyps.de
-    restart_policy:
-      condition: on-failure
-      delay: 3s
-      max_attempts: 5
-      window: 10s
+    restart: on-failure
     container_name: portainer
 
 volumes:
