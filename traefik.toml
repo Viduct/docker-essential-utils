@@ -10,7 +10,7 @@ address = ":443"
 [entryPoints.https.tls]
 
 [acme]
-email = "mail@divoisia.de"
+email = ""
 storage = "acme.json"
 caServer = "https://acme-v01.api.letsencrypt.org/directory"
 entryPoint = "https"
@@ -18,8 +18,8 @@ entryPoint = "https"
 entryPoint = "http"
 
 [[acme.domains]]
-main = "viduct.de"
-sans = ["www.divoisia.com", "divoisia.com", "www.divoisia.de", "divoisia.de", "matomo.viduct.de","portainer.viduct.de","wiki.divoisia.de","wikivoisia.divoisia.de","download.divoisia.de","cloud.divoisia.de"]
+main = ""
+sans = [""]
 
 [file]
 watch = true

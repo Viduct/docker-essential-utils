@@ -13,14 +13,14 @@ services:
       - $PWD/acme.json:/acme.json
     networks:
       - prod
-    restart: on-failure
+    restart: always
     container_name: traefik
 
   portainer:
     image: portainer/portainer:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - portainer-data:/data
     networks:
       - prod
     labels:
@@ -29,7 +29,7 @@ services:
     container_name: portainer
 
 volumes:
-  portainer_data:
+  portainer-data:
 
 networks:
   prod:
